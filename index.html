@@ -1,145 +1,107 @@
 <!doctype html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <meta name="theme-color" content="#1877f2">
-  <title>Tafaß</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#1877f2">
+<title>Tafaß — Réseau social</title>
+<style>*{box-sizing:border-box}:root{--bg:#f5f7fb;--surface:#fff;--text:#101828;--muted:#667085;--line:#e6eaf0;--blue:#2f6df6;--violet:#7b45ff;--grad:linear-gradient(135deg,#2875ff,#7047ff);--radius:16px}html,body{margin:0;min-height:100%;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Arial,sans-serif;background:var(--bg);color:var(--text)}body{font-size:15px;line-height:1.45}button,input,textarea,select{font:inherit}button{cursor:pointer;border:0}.hidden{display:none!important}.row{display:flex;gap:10px;align-items:center}.between{justify-content:space-between}.muted,.small{color:var(--muted)}.small{font-size:12px}.top{height:70px;background:rgba(255,255,255,.95);backdrop-filter:blur(18px);border-bottom:1px solid var(--line);display:flex;align-items:center;gap:12px;padding:0 20px;position:sticky;top:0;z-index:20}.logo{display:flex;align-items:center;gap:9px;font-weight:900;font-size:23px}.mark{width:39px;height:39px;border-radius:12px;background:var(--grad);color:#fff;display:grid;place-items:center;box-shadow:0 7px 18px #564bff40}.search{background:#f1f4f8;border:1px solid transparent;border-radius:15px;padding:11px 14px;display:flex;gap:9px;align-items:center;flex:1;max-width:500px;color:#667085}.search:focus-within{background:#fff;border-color:#cdd8ef;box-shadow:0 0 0 4px #2f6df614}.search input{border:0;background:transparent;outline:0;width:100%;color:var(--text)}.actions{margin-left:auto;display:flex;gap:9px}.ico{width:43px;height:43px;border-radius:14px;background:#f4f6f9;border:1px solid var(--line);display:grid;place-items:center;font-size:19px;color:#344054}.layout{max-width:1180px;margin:0 auto;padding:26px 18px 90px;display:grid;grid-template-columns:190px minmax(0,760px);gap:26px}.side{position:sticky;top:88px;height:max-content}.nav{width:100%;background:transparent;padding:12px 13px;border-radius:13px;text-align:left;font-weight:700;color:#475467;transition:.18s}.nav:hover{background:#edf3ff;color:#2367e8}.nav.on{background:linear-gradient(90deg,#edf3ff,#f3efff);color:#2367e8;box-shadow:inset 3px 0 #5b54ff}.main{min-width:0}.page-head{display:flex;align-items:center;justify-content:space-between;gap:14px;margin:2px 0 18px}.page-title{font-size:30px;line-height:1.1;margin:0;letter-spacing:-.7px;font-weight:850}.page-subtitle{margin:5px 0 0;color:var(--muted);font-size:14px}.section{margin:0 0 18px}.section-title{font-size:18px;font-weight:800;margin:0 0 10px}.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px;margin-bottom:14px;box-shadow:0 5px 18px #18274b0b}.flat{background:transparent;border:0;box-shadow:none;padding:0}.btn{padding:10px 15px;border-radius:13px;font-weight:800;border:1px solid var(--line);background:#fff;color:#344054}.primary{background:var(--grad);color:#fff;border-color:transparent;box-shadow:0 7px 18px #4e4bff33}.secondary{background:#fff}.danger{background:#fff1f2;color:#c01f35}.form{display:grid;gap:11px}.form input,.form textarea,.form select{padding:12px 13px;border:1px solid #d8dee8;border-radius:13px;background:#fff;outline:0}.form textarea{min-height:100px}.avatar{width:40px;height:40px;border-radius:50%;background:#e8efff;display:inline-grid;place-items:center;overflow:hidden;font-weight:800;color:#2468d8;flex:none;border:2px solid #fff;box-shadow:0 2px 8px #152b4a18}.avatar img{width:100%;height:100%;object-fit:cover}.verified{display:inline-grid;place-items:center;background:#2f6df6;color:#fff;width:17px;height:17px;border-radius:50%;font-size:10px;margin-left:3px;vertical-align:middle}.stories{display:flex;gap:10px;overflow:auto}.story{min-width:104px;height:158px;border-radius:16px;overflow:hidden;position:relative;background:var(--grad);color:#fff}.story img{width:100%;height:100%;object-fit:cover;opacity:.82}.story:after{content:"";position:absolute;inset:0;background:linear-gradient(transparent 40%,#000b)}.storyname{position:absolute;bottom:9px;left:9px;z-index:2;font-weight:750;font-size:13px}.storyav{position:absolute;top:9px;left:9px;width:33px;height:33px;border:2px solid #fff;border-radius:50%;z-index:2;background:#fff;color:#2869ee;display:grid;place-items:center}.posthead{display:flex;gap:9px;align-items:center}.meta{flex:1}.meta b{display:block}.posttext{white-space:pre-wrap;line-height:1.5;margin:12px 0}.media{width:100%;max-height:600px;object-fit:cover;border-radius:14px}.postactions{display:flex;border-top:1px solid var(--line);margin-top:10px}.postactions button{background:transparent;flex:1;padding:10px;font-weight:750;color:#667085}.tabs{display:flex;gap:8px;overflow:auto;margin-bottom:15px}.tab{padding:9px 14px;border:1px solid var(--line);background:#fff;border-radius:12px;font-weight:750;white-space:nowrap}.tab.active{background:var(--grad);color:#fff;border-color:transparent}.list{display:grid;gap:2px}.list-row,.result-row{display:flex;align-items:center;gap:11px;padding:11px 0;border-bottom:1px solid #edf0f4}.list-row:last-child,.result-row:last-child{border-bottom:0}.grow,.result-main{flex:1;min-width:0}.result-name{font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.result-type{display:block;color:var(--muted);font-size:12px;margin-top:2px}.result-action{margin-left:auto}.badge{display:none}.badge.show{display:inline-grid;place-items:center;min-width:18px;height:18px;padding:0 5px;border-radius:99px;background:#e53958;color:#fff;font-size:10px;font-weight:900;margin-left:3px}.empty{min-height:230px;display:grid;place-items:center;text-align:center;padding:30px 20px;background:#fff;border:1px solid var(--line);border-radius:16px}.empty-icon{width:60px;height:60px;border-radius:18px;background:var(--grad);color:#fff;display:grid;place-items:center;font-size:26px;margin:0 auto 13px;box-shadow:0 8px 20px #4f49ff33}.empty h3{margin:0 0 5px;font-size:18px}.empty p{margin:0;color:var(--muted)}.photo-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.photo-grid img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:12px}.chat{min-height:600px;display:grid;grid-template-columns:220px 1fr;overflow:hidden;background:#fff;border:1px solid var(--line);border-radius:16px}.chats{border-right:1px solid var(--line);overflow:auto}.chatitem{padding:11px;display:flex;gap:8px;align-items:center}.chatitem:hover{background:#f1f5fb}.chatmain{display:flex;flex-direction:column;min-width:0}.chathead{padding:12px;border-bottom:1px solid var(--line);font-weight:800}.msgs{flex:1;overflow:auto;padding:14px;background:#f8fafc}.bubble{max-width:70%;background:#e9edf3;border-radius:15px;padding:9px 12px;margin:6px 0}.bubble.me{margin-left:auto;background:var(--grad);color:#fff}.compose{display:flex;gap:7px;padding:10px;border-top:1px solid var(--line)}.compose input{flex:1;border:0;background:#f1f4f8;border-radius:13px;padding:11px}.modal{position:fixed;inset:0;background:#10182866;backdrop-filter:blur(6px);display:grid;place-items:center;z-index:50;padding:15px}.modal>div{background:#fff;width:min(560px,100%);max-height:90vh;overflow:auto;border-radius:20px;padding:20px;box-shadow:0 20px 60px #10182835}.auth{min-height:100vh;display:grid;place-items:center;background:linear-gradient(145deg,#f4f7ff,#fff);padding:20px}.authbox{width:min(450px,100%);background:#fff;border:1px solid var(--line);border-radius:22px;padding:26px;box-shadow:0 20px 60px #18274b1a}.authlogo{text-align:center;font-size:30px;font-weight:900}.progress{display:flex;gap:5px;margin:14px 0}.progress i{height:4px;flex:1;background:#e8ebf0;border-radius:99px}.progress i.on{background:var(--grad)}.menu-list{display:grid;gap:3px}.menu-item{display:flex;align-items:center;gap:12px;padding:13px 4px;border-bottom:1px solid #edf0f4;background:transparent;text-align:left}.menu-item .mi{width:34px;height:34px;border-radius:10px;background:#eef3ff;color:#2f6df6;display:grid;place-items:center}.menu-item .grow{flex:1}.menu-item b{display:block}.menu-item small{display:block;color:var(--muted);margin-top:2px}@media(max-width:900px){.layout{grid-template-columns:1fr;max-width:780px}.side{position:fixed;left:0;right:0;bottom:0;top:auto;z-index:30;display:flex;justify-content:space-around;background:rgba(255,255,255,.96);backdrop-filter:blur(18px);border-top:1px solid var(--line);padding:6px 5px}.side .nav{width:auto;min-width:48px;padding:8px;text-align:center}.side .nav span:last-child{display:none}.main{padding-bottom:65px}}@media(max-width:650px){.top{height:62px;padding:7px 10px}.logo{font-size:19px}.mark{width:34px;height:34px}.top>.search{display:none}.layout{padding:18px 14px 86px}.page-title{font-size:26px}.card{padding:14px}.chat{grid-template-columns:1fr;min-height:520px}.chats{display:none}}
+</style>
 </head>
-<body>
-  <!-- SPLASH PREMIUM — chargement cyclique court et aléatoire -->
-  <section id="splash" class="splash-screen" aria-label="Tafaß">
-    <div class="splash-logo-circle" aria-hidden="true"><img src="assets/tafass-logo.svg" alt="Tafaß"></div>
-    <div class="splash-dots" aria-hidden="true"><i data-step="1"></i><i data-step="2"></i><i data-step="3"></i><i data-step="4"></i><i data-step="5"></i></div>
-  </section>
+<body><div id="app"></div><div id="modal" class="modal hidden"><div id="modalbox"></div></div>
+<script src="config.js"></script>
+<script type="module">
+import {supabase,currentUser,profile,esc,fmt,avatar,verified,upload,sendNotification} from "./app.js";
 
-  <!-- AUTHENTIFICATION -->
-  <section id="authScreen" class="auth-screen hidden">
-    <div class="auth-brand">
-      <div class="brand-logo"><img src="assets/tafass-logo.svg" alt="Tafaß"></div>
-      <div><strong>Tafaß</strong><span>Connecter les communautés</span></div>
-    </div>
+const app=document.querySelector("#app"), modal=document.querySelector("#modal"), modalbox=document.querySelector("#modalbox");
+let me=null, view="home", search="", selectedChat=null, conversations=[], currentConversation=null, counts={notifications:0,messages:0,friends:0};
+const state={signup:{step:1,name:"",email:"",phone:"",country:"Madagascar",birth:"",gender:"",password:""}};
 
-    <div id="loginView" class="auth-card">
-      <div class="auth-head"><h1>Connexion</h1><p>Retrouvez votre communauté.</p></div>
-      <form id="loginForm">
-        <label>E-mail<input id="loginIdentifier" type="email" inputmode="email" autocomplete="username" placeholder="votre@email.com" required></label>
-        <label>Mot de passe
-          <span class="password-wrap"><input id="loginPassword" type="password" autocomplete="current-password" required><button type="button" data-toggle-password="loginPassword">Afficher</button></span>
-        </label>
-        <button class="btn primary wide" type="submit">Se connecter</button>
-      </form>
-      <button class="link-btn" id="forgotBtn">Mot de passe oublié ?</button>
-      <div class="divider"><span>ou</span></div>
-      <button type="button" class="btn success wide" id="showRegister">Créer un nouveau compte</button>
-      <p class="auth-note">Connexion sécurisée par Supabase. Vos données de compte sont enregistrées sur le serveur.</p>
-    </div>
+function showModal(html){modalbox.innerHTML=html;modal.classList.remove("hidden")}
+function closeModal(){modal.classList.add("hidden")}
+modal.onclick=e=>{if(e.target===modal)closeModal()}
+window.closeModal=closeModal;
 
-    <div id="registerView" class="auth-card hidden">
-      <div class="auth-head">
-        <h1>Créer votre compte</h1>
-        <p id="registerStepTitle">Étape 1/5 — Informations personnelles</p>
-      </div>
-      <div class="progress"><span id="registerProgress"></span></div>
-      <form id="registerForm">
-        <div class="reg-step" data-step="1">
-          <label>Prénom<input id="rFirst" required></label>
-          <label>Nom<input id="rLast" required></label>
-          <label>Date de naissance<input id="rBirth" type="date" required></label>
-          <label>Genre
-            <select id="rGender"><option value="">Choisir</option><option>Femme</option><option>Homme</option><option>Autre</option><option>Je préfère ne pas préciser</option></select>
-          </label>
-          <label>Nom d'utilisateur<input id="rUsername" placeholder="ex. tahina_123" required></label>
-        </div>
+function nav(v){view=v;render()}
+function shell(body){const items=[['home','⌂','Actualités',''],['friends','♙','Amis','friends'],['messages','▱','Messages','messages'],['videos','▷','Vidéos',''],['pages','▤','Pages',''],['notifications','♧','Notifications','notifications'],['menu','☰','Menu','']];const navHtml=items.map(([v,ic,label,b])=>`<button class="nav ${view===v?'on':''}" onclick="nav('${v}')">${ic} ${label}${b&&counts[b]>0?` <span class="badge show">${counts[b]>99?'99+':counts[b]}</span>`:''}</button>`).join('');return `<header class="top"><div class="logo"><span class="mark">T</span><span>Tafaß</span></div><div class="search">⌕<input id="search" value="${esc(search)}" placeholder="Rechercher..." onkeydown="if(event.key==='Enter'){search=this.value.trim();nav('search')}"></div><div class="actions"><button class="ico" onclick="nav('search')">⌕</button><button class="ico" onclick="nav('menu')">☰</button></div></header><div class="layout"><aside class="side">${navHtml}<button class="nav" onclick="signout()">↪</button></aside><main class="main">${body}</main></div>`}window.nav=nav;
 
-        <div class="reg-step hidden" data-step="2">
-          <label>Pays
-            <select id="rCountry" required></select>
-          </label>
-          <div class="phone-grid">
-            <label>Indicatif<input id="rCode" readonly></label>
-            <label>Numéro de téléphone<input id="rPhone" inputmode="tel" required></label>
-          </div>
-          <p class="field-help">L'indicatif est automatiquement lié au pays choisi et n'est pas modifiable.</p>
-        </div>
+async function render(){
+ const u=await currentUser();
+ if(!u){auth();return}
+ me=await profile();
+ if(!me){await supabase.auth.signOut();auth();return}
+ if(view==="home")return home();
+ if(view==="friends")return friends();
+ if(view==="search")return searchPage();
+ if(view==="profile")return profilePage(me.id);
+ if(view==="notifications")return notifications();
+ if(view==="messages")return messages();
+ if(view==="pages")return pages();
+ if(view==="videos")return videos();
+ if(view==="menu")return menu();
+ if(view==="admin")return admin();
+}
+function auth(){
+ app.innerHTML=`<div class="auth"><div class="authbox"><div class="authlogo"><span class="mark" style="display:inline-grid">T</span> Tafaß</div><p class="muted" style="text-align:center">Le vrai réseau social Tafaß</p>
+ ${state.mode==="signup"?signupHTML():loginHTML()}</div></div>`;
+}
+state.mode="login";
+function loginHTML(){return `<div class="form"><h2>Connexion</h2><input id="li" placeholder="Email"><input id="lp" type="password" placeholder="Mot de passe"><button class="btn primary" onclick="login()">Se connecter</button><button class="btn secondary" onclick="state.mode='signup';auth()">Créer un compte</button><button class="btn secondary" onclick="reset()">Mot de passe oublié</button></div>`}
+function signupHTML(){
+ const s=state.signup;
+ let content="";
+ if(s.step===1)content=`<input id="sn" placeholder="Nom complet"><input id="se" type="email" placeholder="Email"><input id="sb" type="date" placeholder="Date de naissance">`;
+ if(s.step===2)content=`<select id="sc"><option>Madagascar</option><option>France</option><option>Comores</option><option>Maurice</option></select><input id="sp" placeholder="+261 34 00 000 00">`;
+ if(s.step===3)content=`<select id="sg"><option>Genre</option><option>Homme</option><option>Femme</option><option>Autre</option></select><textarea id="bio" placeholder="Présentation"></textarea>`;
+ if(s.step===4)content=`<input id="sw" type="password" placeholder="Mot de passe (8 caractères minimum)"><input id="sw2" type="password" placeholder="Confirmer">`;
+ if(s.step===5)content=`<div class="card">Vérifiez vos informations puis créez votre compte Tafaß.</div><label><input id="ok" type="checkbox"> J'accepte les conditions.</label>`;
+ return `<h2>Créer votre compte</h2><div class="progress">${[1,2,3,4,5].map(i=>`<i class="${i<=s.step?'on':''}"></i>`).join("")}</div><div class="small">Étape ${s.step}/5</div><div class="form" style="margin-top:12px">${content}</div><div class="row" style="justify-content:space-between;margin-top:14px">${s.step>1?'<button class="btn secondary" onclick="prevStep()">Retour</button>':'<span></span>'}<button class="btn primary" onclick="nextStep()">${s.step<5?'Continuer':'Créer le compte'}</button></div><p class="muted">Déjà inscrit ? <button class="btn secondary" onclick="state.mode='login';auth()">Connexion</button></p>`;
+}
+window.login=async()=>{const {error}=await supabase.auth.signInWithPassword({email:document.querySelector("#li").value,password:document.querySelector("#lp").value});if(error)alert(error.message);else render()};
+window.reset=async()=>{const email=prompt("Votre email");if(!email)return;const {error}=await supabase.auth.resetPasswordForEmail(email,{redirectTo:location.origin});alert(error?error.message:"Un email de récupération a été envoyé.")};
+function readStep(){const v=id=>document.getElementById(id)?.value;if(state.signup.step===1){state.signup.name=v("sn");state.signup.email=v("se");state.signup.birth=v("sb")}if(state.signup.step===2){state.signup.country=v("sc");state.signup.phone=v("sp")}if(state.signup.step===3){state.signup.gender=v("sg")}if(state.signup.step===4){state.signup.password=v("sw")}}
+window.nextStep=async()=>{readStep();const s=state.signup;if(s.step===4&&s.password.length<8)return alert("8 caractères minimum.");if(s.step===4&&s.password!==document.getElementById("sw2").value)return alert("Mots de passe différents.");if(s.step<5){s.step++;auth();return}if(!document.getElementById("ok").checked)return alert("Acceptez les conditions.");const {data,error}=await supabase.auth.signUp({email:s.email,password:s.password,options:{data:{name:s.name,country:s.country,phone:s.phone,birth:s.birth,gender:s.gender}}});if(error)alert(error.message);else{alert("Compte créé. Vérifiez votre email si la confirmation est activée.");state.mode="login";auth()}};
+window.prevStep=()=>{readStep();state.signup.step--;auth()};
+window.signout=async()=>{await supabase.auth.signOut();me=null;state.mode="login";render()};
 
-        <div class="reg-step hidden" data-step="3">
-          <label>E-mail<input id="rEmail" type="email" autocomplete="email" required></label>
-          <label>Mot de passe
-            <span class="password-wrap"><input id="rPass" type="password" required><button type="button" data-toggle-password="rPass">Afficher</button></span>
-          </label>
-          <div class="strength"><span id="strengthBar"></span></div><small id="strengthText">Force du mot de passe</small>
-          <label>Confirmation<input id="rPass2" type="password" required></label>
-        </div>
+async function home(){const {data:posts}=await supabase.from("posts").select("*,profiles(*)").order("created_at",{ascending:false}).limit(50);app.innerHTML=shell(`<div class="page-head"><div><h1 class="page-title">Actualités</h1><p class="page-subtitle">Les dernières publications de votre réseau</p></div></div><section class="section flat"><div class="stories"><div class="story" onclick="newStory()"><div class="storyav">＋</div><div class="storyname">Créer une Story</div></div></div></section><section class="section card"><div class="row">${avatar(me)}<button class="search" style="max-width:none;border:0;text-align:left" onclick="newPost()">À quoi pensez-vous ?</button><button class="btn primary" onclick="newPost()">Photo</button></div></section>${(posts||[]).map(post).join("")}`)}
+function post(p){return `<article class="card"><div class="posthead">${avatar(p.profiles)}<div class="meta"><b>${esc(p.profiles?.name||"Utilisateur")} ${verified(p.profiles)}</b><span class="small">${fmt(p.created_at)} · Public</span></div></div><div class="posttext">${esc(p.text||"")}</div>${p.media_url?(p.media_type?.startsWith("video")?`<video class="media" controls src="${esc(p.media_url)}"></video>`:`<img class="media" src="${esc(p.media_url)}">`):""}<div class="postactions"><button onclick="like('${p.id}')">👍 J'aime</button><button onclick="comment('${p.id}')">💬 Commenter</button><button onclick="share('${p.id}')">↗ Partager</button></div></article>`}
+window.newStory=()=>showModal(`<h2>Créer une Story</h2><div class="form"><textarea placeholder="Votre story..."></textarea><input type="file" accept="image/*,video/*"><button class="btn primary" onclick="closeModal()">Publier</button></div>`);window.newPost=async()=>showModal(`<h2>Créer une publication</h2><div class="form"><textarea id="pt" placeholder="Quoi de neuf ?"></textarea><input id="pf" type="file" accept="image/*,video/*,.pdf,.apk,.zip,.doc,.docx"><select id="pp"><option value="public">Public</option><option value="friends">Amis</option><option value="private">Moi uniquement</option></select><button class="btn primary" onclick="publish()">Publier</button></div>`);
+window.publish=async()=>{try{const f=document.querySelector("#pf").files[0];let url=null,type=null;if(f){url=await upload(f,f.type.startsWith("image")||f.type.startsWith("video")?"media":"files");type=f.type}const {error}=await supabase.from("posts").insert({user_id:me.id,text:document.querySelector("#pt").value,media_url:url,media_type:type,privacy:document.querySelector("#pp").value});if(error)throw error;closeModal();render()}catch(e){alert(e.message)}};
+window.like=async id=>{const {data}=await supabase.from("post_likes").select("*").eq("post_id",id).eq("user_id",me.id).maybeSingle();if(data)await supabase.from("post_likes").delete().eq("post_id",id).eq("user_id",me.id);else await supabase.from("post_likes").insert({post_id:id,user_id:me.id});render()};
+window.comment=async id=>{const t=prompt("Commentaire");if(t)await supabase.from("comments").insert({post_id:id,user_id:me.id,text:t});render()};
+window.share=id=>{navigator.clipboard?.writeText(location.href);alert("Publication prête à être partagée.")};
 
-        <div class="reg-step hidden" data-step="4">
-          <div class="photo-picker">
-            <div id="registerAvatar" class="avatar xl">T</div>
-            <div><h3>Ajouter une photo de profil</h3><p>Elle sera utilisée dans le profil, les publications, commentaires, messages et notifications.</p></div>
-          </div>
-          <input id="rAvatarFile" type="file" accept="image/*" class="file-input">
-          <div class="file-actions"><button type="button" class="btn secondary" id="changeAvatarBtn">Choisir une photo</button><button type="button" class="btn ghost danger" id="removeAvatarBtn">Supprimer</button></div>
-          <p class="field-help">Vous pouvez continuer sans photo.</p>
-        </div>
+async function friends(){const {data:req}=await supabase.from("friend_requests").select("*,from:profiles!friend_requests_from_user_fkey(*)").eq("to_user",me.id).eq("status","pending");const {data:people}=await supabase.from("profiles").select("*").neq("id",me.id).limit(30);app.innerHTML=shell(`<div class="page-head"><div><h1 class="page-title">Amis</h1><p class="page-subtitle">Gérez vos relations et découvrez de nouvelles personnes</p></div><button class="btn primary" onclick="nav('search')">⌕ Rechercher</button></div><div class="search" style="max-width:none;margin-bottom:14px">⌕ <input placeholder="Rechercher une personne" onkeydown="if(event.key==='Enter'){search=this.value.trim();nav('search')}"></div><div class="tabs"><button class="tab active">Amis ${counts.friends}</button><button class="tab">Invitations ${(req||[]).length}</button><button class="tab">Envoyées</button><button class="tab">Suggestions</button></div><section class="section"><h2 class="section-title">Mes amis</h2>${(people||[]).length?`<div class="list">${(people||[]).slice(0,20).map(u=>`<div class="list-row">${avatar(u)}<div class="grow"><div class="result-name">${esc(u.name)} ${verified(u)}</div><span class="result-type">Compte Tafaß</span></div><button class="btn primary" onclick="addFriend('${u.id}')">Ajouter</button></div>`).join("")}</div>`:`<div class="empty"><div><div class="empty-icon">♙</div><h3>Aucun ami</h3><p>Recherchez une personne ou ajoutez des amis.</p></div></div>`}</section>`)}window.addFriend=async to=>{await supabase.from("friend_requests").insert({from_user:me.id,to_user:to});await sendNotification(to,`${me.name} vous a envoyé une invitation.`,"friend",me.id);friends()};window.accept=async id=>{await supabase.from("friend_requests").update({status:"accepted"}).eq("id",id);friends()};;
 
-        <div class="reg-step hidden" data-step="5">
-          <div id="registerSummary" class="summary-card"></div>
-          <label class="check-row"><input id="rTerms" type="checkbox" required><span>J'accepte les conditions d'utilisation et la politique de confidentialité.</span></label>
-          <p class="field-help">La création du compte est sécurisée par Supabase Auth et vos informations sont enregistrées sur le serveur.</p>
-        </div>
+async function searchPage(){const q=search.trim();const {data}=q?await supabase.from("profiles").select("*").ilike("name",`%${q}%`).limit(30):{data:[]};app.innerHTML=shell(`<h2>Rechercher</h2><div class="card"><div class="search"><input id="sq" value="${esc(q)}" placeholder="Compte, page, personne..." onkeydown="if(event.key==='Enter'){search=this.value;searchPage()}"></div></div><div class="card">${(data||[]).map(u=>`<div class="row between" style="padding:10px">${avatar(u)}<b>${esc(u.name)} ${verified(u)}</b><button class="btn secondary" onclick="profilePage('${u.id}')">Profil</button></div>`).join("")||"<div class='muted'>Aucun résultat.</div>"}</div>`)}
+async function profilePage(id){const {data:u}=await supabase.from("profiles").select("*").eq("id",id).single();const {data:posts}=await supabase.from("posts").select("*,profiles(*)").eq("user_id",id).order("created_at",{ascending:false});app.innerHTML=shell(`<div class="card"><div style="height:170px;background:linear-gradient(135deg,#1877f2,#7c3aed);border-radius:12px"></div><div style="padding:15px">${avatar(u)}<h2>${esc(u.name)} ${verified(u)}</h2><p>${esc(u.bio||"")}</p><p class="small">${esc(u.country||"")} · ${esc(u.email||"")}</p>${id===me.id?'<button class="btn primary" onclick="editProfile()">Modifier le profil</button>':''}</div></div>${(posts||[]).map(post).join("")}`)}
+window.editProfile=()=>showModal(`<h2>Modifier le profil</h2><div class="form"><input id="en" value="${esc(me.name)}"><textarea id="eb">${esc(me.bio||"")}</textarea><button class="btn primary" onclick="saveProfile()">Enregistrer</button></div>`);
+window.saveProfile=async()=>{await supabase.from("profiles").update({name:document.querySelector("#en").value,bio:document.querySelector("#eb").value}).eq("id",me.id);closeModal();render()};
 
-        <div class="reg-actions">
-          <button type="button" class="btn secondary" id="regBack">Retour</button>
-          <button type="button" class="btn primary" id="regNext">Continuer</button>
-          <button type="submit" class="btn primary hidden" id="regSubmit">Créer mon compte</button>
-        </div>
-      </form>
-      <button type="button" class="link-btn" id="showLogin" onclick="window.tafaOpenLogin && window.tafaOpenLogin(event)">J'ai déjà un compte</button>
-    </div>
-  </section>
+async function notifications(){const {data}=await supabase.from("notifications").select("*").order("created_at",{ascending:false}).limit(50);app.innerHTML=shell(`<h2>Notifications</h2><div class="card">${(data||[]).map(n=>`<div style="padding:13px;border-bottom:1px solid #eee"><b>${esc(n.text)}</b><div class="small">${fmt(n.created_at)}</div></div>`).join("")||"<div class='muted'>Aucune notification.</div>"}</div>`)}
 
-  <!-- APPLICATION SPA -->
-  <section id="appScreen" class="app-shell hidden">
-    <header class="topbar">
-      <div class="topbar-brand"><button class="brand-inline" data-route="home" aria-label="Tafaß"><b class="brand-wordmark">Tafaß</b></button></div>
-      <div class="global-search"><span>⌕</span><input id="globalSearch" placeholder="Rechercher sur Tafaß"><div id="searchSuggest" class="search-suggest hidden"></div></div>
-      <div class="top-actions">
-        <button class="icon-btn search-action" data-route="search" title="Rechercher" aria-label="Rechercher">⌕</button>
-        <button class="icon-btn menu-action" id="mobileMenu" data-route="menu" title="Menu" aria-label="Menu">☰</button>
-      </div>
-      <nav class="top-menu-nav" id="bottomNav" aria-label="Navigation principale"></nav>
-    </header>
+async function messages(){const {data:members}=await supabase.from("conversation_members").select("conversation_id,conversations(*)").eq("user_id",me.id);const list=members||[];let cid=currentConversation||list[0]?.conversation_id;if(!cid){app.innerHTML=shell(`<h2>Messages</h2><div class="card"><p>Aucune conversation. Depuis un profil, créez une conversation réelle avec un ami.</p></div>`);return}currentConversation=cid;const {data:msgs}=await supabase.from("messages").select("*,profiles(*)").eq("conversation_id",cid).order("created_at",{ascending:true});app.innerHTML=shell(`<h2>Messages</h2><div class="card chat"><div class="chats">${list.map(x=>`<div class="chatitem" onclick="currentConversation='${x.conversation_id}';messages()">${esc(x.conversations?.name||"Conversation")}</div>`).join("")}</div><div class="chatmain"><div class="chathead">Conversation Tafaß</div><div class="msgs">${(msgs||[]).map(m=>`<div class="bubble ${m.sender_id===me.id?'me':''}">${esc(m.text||"")} ${m.file_url?`<a href="${esc(m.file_url)}" target="_blank">📎 ${esc(m.file_name||"Fichier")}</a>`:""}<div class="small">${fmt(m.created_at)}</div></div>`).join("")}</div><div class="compose"><input id="mt" placeholder="Écrire..." onkeydown="if(event.key==='Enter')sendMsg()"><input id="mf" type="file" hidden onchange="sendFile()"><button class="ico" onclick="document.querySelector('#mf').click()">＋</button><button class="btn primary" onclick="sendMsg()">➤</button></div></div></div>`)}
+window.sendMsg=async()=>{const t=document.querySelector("#mt").value.trim();if(!t)return;await supabase.from("messages").insert({conversation_id:currentConversation,sender_id:me.id,text:t});document.querySelector("#mt").value="";messages()};
+window.sendFile=async()=>{const f=document.querySelector("#mf").files[0];if(!f)return;const url=await upload(f,"files");await supabase.from("messages").insert({conversation_id:currentConversation,sender_id:me.id,text:"📎 Fichier",file_url:url,file_name:f.name,file_type:f.type});messages()};
 
-    <div class="layout">
-      <aside class="sidebar left-sidebar" id="leftSidebar">
-        <div class="user-mini" data-route="profile"><span id="sideAvatar" class="avatar">T</span><div><b id="sideName">Utilisateur</b><small id="sideHandle">@user</small></div></div>
-        <div class="sidebar-card sidebar-about"><b>Navigation premium</b><p class="muted">Utilisez la barre principale en haut pour accéder à tous les espaces de Tafaß.</p></div>
-        <div class="sidebar-bottom"><button data-route="menu">☰ Ouvrir le Menu complet</button></div>
-      </aside>
+async function pages(){const {data}=await supabase.from("pages").select("*").order("created_at",{ascending:false});app.innerHTML=shell(`<div class="row between"><h2>Pages</h2><button class="btn primary" onclick="createPage()">Créer une Page</button></div><div class="card">${(data||[]).map(p=>`<div class="card"><h3>${esc(p.name)} ${p.verified?'<span class="verified">✓</span>':''}</h3><p>${esc(p.category)} · ${p.followers_count} abonnés</p><p>${esc(p.bio||"")}</p><button class="btn primary" onclick="follow('${p.id}')">Suivre</button></div>`).join("")}</div>`)}
+window.createPage=()=>showModal(`<h2>Créer une Page</h2><div class="form"><input id="pn" placeholder="Nom"><select id="pc"><option>Artiste</option><option>Entreprise</option><option>Vente</option><option>Comédie</option><option>Acteur</option><option>Marque</option></select><textarea id="pb" placeholder="Description"></textarea><button class="btn primary" onclick="savePage()">Créer</button></div>`);
+window.savePage=async()=>{await supabase.from("pages").insert({owner_id:me.id,name:document.querySelector("#pn").value,category:document.querySelector("#pc").value,bio:document.querySelector("#pb").value});closeModal();pages()};
+window.follow=async id=>{await supabase.from("page_followers").insert({page_id:id,user_id:me.id});pages()};
 
-      <main id="mainContent" class="main-content"></main>
+async function videos(){const {data}=await supabase.from("posts").select("*,profiles(*)").like("media_type","video%").order("created_at",{ascending:false});app.innerHTML=shell(`<h2>Vidéos</h2>${(data||[]).map(post).join("")||'<div class="card muted">Aucune vidéo.</div>'}`)}
+function menu(){app.innerHTML=shell(`<h2>Menu</h2><div class="card">${["Paramètres","Confidentialité","Sécurité","Langue","Apparence","Notifications","Téléchargements","Données","Accessibilité","Aide","Conditions","Confidentialité","Signaler","Inviter","Badge vérifié","Abonnement 25 000 Ar/mois","Boutique","Créateur / Studio","Passer en Page","À propos","Supprimer le compte"].map((x,i)=>`<button class="nav" onclick="${i===14?'verification()':i===15?'subscription()':`alert('Option ${x}')`}">⚙ ${x}</button>`).join("")}</div>`)}
+function subscription(){showModal(`<h2>Badge vérifié — 25 000 Ar / mois</h2><p>La demande est soumise à l'administration. Le badge est actif jusqu'à la date de fin de l'abonnement validé.</p><div class="card">Yas Money : +261383955105<br>Airtel Money : +261336756185<br>Orange Money : +261379594257<br><b>Mahandry Hery RANDRIAMALALA</b></div><button class="btn primary" onclick="verification()">Faire la demande en 5 étapes</button>`)}
+function verification(){showModal(`<h2>Demande de badge</h2><p>Étapes : identité → catégorie → paiement 25 000 Ar → preuve → envoi à l'administration.</p><div class="form"><input id="vrname" value="${esc(me.name)}"><select id="vrcat"><option>Créateur</option><option>Artiste</option><option>Entreprise</option><option>Marque</option><option>Personnalité</option></select><textarea id="vrr" placeholder="Pourquoi votre compte doit-il être vérifié ?"></textarea><select id="vrp"><option>Yas Money</option><option>Airtel Money</option><option>Orange Money</option></select><input id="vrf" type="file" accept="image/*,.pdf"><button class="btn primary" onclick="sendVerification()">Envoyer</button></div>`)}
+window.verification=verification;window.subscription=subscription;
+window.sendVerification=async()=>{const f=document.querySelector("#vrf").files[0];let proof=null;if(f)proof=await upload(f,"files");await supabase.from("verification_requests").insert({user_id:me.id,category:document.querySelector("#vrcat").value,reason:document.querySelector("#vrr").value,payment_method:document.querySelector("#vrp").value,proof_url:proof,amount_ar:25000});closeModal();alert("Demande envoyée à l'administration.")};
 
-      <aside class="sidebar right-sidebar">
-        <div class="card"><div class="card-title"><b>Suggestions</b><button class="link-btn" data-route="friends">Voir tout</button></div><div id="rightSuggestions"></div></div>
-        <div class="card"><div class="card-title"><b>À propos de Tafaß</b></div><p class="muted">Réseau social moderne créé pour communiquer, publier et développer une communauté.</p><small>Tafaß Ofisialy · Antananarivo, Madagascar</small></div>
-      </aside>
-    </div>
+async function admin(){if(me.role!=="admin")return nav("home");const {data}=await supabase.from("verification_requests").select("*,profiles(*)").eq("status","pending");app.innerHTML=shell(`<h2>Administration</h2><div class="card"><h3>Demandes de badge</h3>${(data||[]).map(v=>`<div class="card"><b>${esc(v.profiles?.name)}</b><p>${esc(v.category)} · 25 000 Ar · ${esc(v.payment_method)}</p>${v.proof_url?`<a href="${esc(v.proof_url)}" target="_blank">Voir la preuve</a>`:""}<div><button class="btn primary" onclick="approve('${v.id}','${v.user_id}')">Valider</button> <button class="btn danger" onclick="reject('${v.id}')">Refuser</button></div></div>`).join("")||"<p class='muted'>Aucune demande en attente.</p>"}</div><div class="card"><h3>Paiements</h3>Yas Money : +261383955105<br>Airtel Money : +261336756185<br>Orange Money : +261379594257<br><b>Mahandry Hery RANDRIAMALALA</b></div>`)}
+window.approve=async(id,uid)=>{await supabase.from("verification_requests").update({status:"approved",reviewed_at:new Date().toISOString()}).eq("id",id);const end=new Date();end.setMonth(end.getMonth()+1);await supabase.from("subscriptions").insert({user_id:uid,amount_ar:25000,status:"active",starts_at:new Date().toISOString(),ends_at:end.toISOString()});await supabase.from("profiles").update({verified:true,verified_until:end.toISOString()}).eq("id",uid);admin()};
+window.reject=async id=>{await supabase.from("verification_requests").update({status:"rejected",reviewed_at:new Date().toISOString()}).eq("id",id);admin()};
 
-  </section>
-
-  <div id="modalRoot"></div>
-  <div id="toast" class="toast"></div>
-
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="supabase-config.js"></script>
-  
-<script src="app.js"></script>
-
-
-
-
-
-
-</body>
-</html>
+supabase.auth.onAuthStateChange(()=>setTimeout(render,0));
+supabase.channel("tafass-live").on("postgres_changes",{event:"*",schema:"public",table:"messages"},()=>{if(view==="messages")messages()}).on("postgres_changes",{event:"*",schema:"public",table:"posts"},()=>{if(view==="home")home()}).on("postgres_changes",{event:"*",schema:"public",table:"notifications"},()=>{if(view==="notifications")notifications()}).subscribe();
+render();
+</script></body></html>
