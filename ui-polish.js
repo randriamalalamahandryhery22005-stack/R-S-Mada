@@ -171,8 +171,159 @@
     });
   }
 
+
+
+  /* ---------- Password recovery: presentation + Supabase Auth flow ---------- */
+  let recoveryOpen=false;
+  function recoveryModal(step, message=''){
+    const root=document.getElementById('modalRoot');
+    if(!root)return;
+    recoveryOpen=true;
+    const titles={1:'Récupérer votre mot de passe',2:'E-mail envoyé',3:'Créer un nouveau mot de passe'};
+    const subtitles={1:'Saisissez l’adresse e-mail liée à votre compte.',2:'Vérifiez votre boîte e-mail puis ouvrez le lien sécurisé.',3:'Choisissez un nouveau mot de passe sécurisé.'};
+    const progress=[1,2,3].map(i=>`<span class="recovery-step ${i<=step?'active':''}"><b>${i}</b><small>${i===1?'E-mail':i===2?'Vérification':'Nouveau mot de passe'}</small></span>`).join('');
+    let body='';
+    if(step===1) body=`<form id="tfaRecoveryEmail" class="recovery-form"><label>Adresse e-mail<input id="tfaRecoveryEmailInput" type="email" autocomplete="email" inputmode="email" placeholder="votre@email.com" required></label><p class="recovery-note">Nous utiliserons uniquement l’e-mail fourni pour demander à Supabase l’envoi du lien sécurisé.</p><button class="btn primary wide" type="submit">Envoyer le lien</button></form>`;
+    if(step===2) body=`<div class="recovery-success"><div class="recovery-success-icon">✓</div><h3>Vérifiez votre e-mail</h3><p>${esc(message||'Un lien sécurisé de réinitialisation a été demandé.')}</p><small>Ouvrez le lien reçu pour revenir ici et définir votre nouveau mot de passe.</small><button class="btn secondary wide" type="button" id="recoveryCloseBtn">Fermer</button></div>`;
+    if(step===3) body=`<form id="tfaRecoveryReset" class="recovery-form"><label>Nouveau mot de passe<span class="password-wrap"><input id="tfaNewPassword" type="password" autocomplete="new-password" minlength="6" required><button type="button" data-recovery-toggle="tfaNewPassword">Afficher</button></span></label><label>Confirmer le mot de passe<span class="password-wrap"><input id="tfaNewPassword2" type="password" autocomplete="new-password" minlength="6" required><button type="button" data-recovery-toggle="tfaNewPassword2">Afficher</button></span></label><div class="recovery-password-rule">Minimum 6 caractères. Utilisez un mot de passe différent de vos anciens mots de passe.</div><button class="btn primary wide" type="submit">Enregistrer le nouveau mot de passe</button></form>`;
+    root.innerHTML=`<div class="modal-backdrop recovery-backdrop"><section class="modal recovery-modal" role="dialog" aria-modal="true" aria-labelledby="recoveryTitle"><header class="modal-header"><div><h2 id="recoveryTitle">${titles[step]}</h2><p class="recovery-subtitle">${subtitles[step]}</p></div><button class="modal-close" id="recoveryX" type="button" aria-label="Fermer">×</button></header><div class="recovery-progress">${progress}</div>${body}</section></div>`;
+    const close=()=>{root.innerHTML='';recoveryOpen=false;};
+    document.getElementById('recoveryX')?.addEventListener('click',close);
+    document.getElementById('recoveryCloseBtn')?.addEventListener('click',close);
+    root.querySelectorAll('[data-recovery-toggle]').forEach(b=>b.addEventListener('click',()=>{const i=document.getElementById(b.dataset.recoveryToggle);if(i){i.type=i.type==='password'?'text':'password';b.textContent=i.type==='password'?'Afficher':'Masquer';}}));
+    const emailForm=document.getElementById('tfaRecoveryEmail');
+    if(emailForm) emailForm.addEventListener('submit',async e=>{
+      e.preventDefault();
+      const email=document.getElementById('tfaRecoveryEmailInput').value.trim().toLowerCase();
+      const client=window.supabaseClient;
+      if(!client?.auth)return toast('Supabase Auth n’est pas disponible.');
+      const submit=emailForm.querySelector('button[type=submit]'); if(submit){submit.disabled=true;submit.textContent='Envoi…';}
+      try{
+        const {error}=await client.auth.resetPasswordForEmail(email,{redirectTo:location.origin+location.pathname});
+        if(error)throw error;
+        recoveryModal(2,`Un lien de réinitialisation a été envoyé à ${email}. Si vous ne le voyez pas, vérifiez aussi vos courriers indésirables.`);
+      }catch(err){
+        if(submit){submit.disabled=false;submit.textContent='Envoyer le lien';}
+        toast(err?.message||'Impossible d’envoyer le lien de réinitialisation.');
+      }
+    });
+    const resetForm=document.getElementById('tfaRecoveryReset');
+    if(resetForm) resetForm.addEventListener('submit',async e=>{
+      e.preventDefault();
+      const p=document.getElementById('tfaNewPassword')?.value||'', p2=document.getElementById('tfaNewPassword2')?.value||'';
+      if(p.length<6)return toast('Le mot de passe doit contenir au moins 6 caractères.');
+      if(p!==p2)return toast('Les deux mots de passe ne correspondent pas.');
+      const client=window.supabaseClient;
+      if(!client?.auth)return toast('Supabase Auth n’est pas disponible.');
+      const submit=resetForm.querySelector('button[type=submit]');if(submit){submit.disabled=true;submit.textContent='Enregistrement…';}
+      try{
+        const {error}=await client.auth.updateUser({password:p});
+        if(error)throw error;
+        root.innerHTML='';recoveryOpen=false;
+        if(location.hash) history.replaceState({},document.title,location.pathname+location.search);
+        toast('Mot de passe mis à jour avec succès.');
+      }catch(err){
+        if(submit){submit.disabled=false;submit.textContent='Enregistrer le nouveau mot de passe';}
+        toast(err?.message||'Impossible de modifier le mot de passe.');
+      }
+    });
+  }
+
+  function bindForgotPassword(){
+    if(document.documentElement.dataset.tfaRecoveryBound==='1')return;
+    document.documentElement.dataset.tfaRecoveryBound='1';
+    document.addEventListener('click',e=>{
+      const btn=e.target.closest('#forgotBtn');
+      if(!btn)return;
+      e.preventDefault();e.stopImmediatePropagation();
+      recoveryModal(1);
+    },true);
+    const client=window.supabaseClient;
+    if(client?.auth){
+      try{client.auth.onAuthStateChange((event)=>{if(event==='PASSWORD_RECOVERY')setTimeout(()=>recoveryModal(3),120);});}catch(_){}
+    }
+    if(location.hash && /access_token=|type=recovery|token_hash=/.test(location.hash+location.search)) setTimeout(()=>recoveryModal(3),500);
+  }
+
+  function enhanceSearchPage(){
+    const page=document.querySelector('.search-premium-v90');
+    if(!page)return;
+    const input=document.getElementById('pageSearchInput');
+    const filters=page.querySelector('.search-filter-grid-v90');
+    const results=page.querySelector('.search-result-stack-v90');
+    const q=(input?.value||window.globalSearchQuery||'').trim();
+    if(filters)filters.classList.toggle('ui-search-filters-hidden',!q);
+    if(!results)return;
+    const cards=[...results.querySelectorAll('.search-result-card')];
+    if(!cards.length){
+      if(!q){results.innerHTML=`<section class="search-suggestion-page"><div class="search-section-title-ui"><h2>Suggestions</h2></div><p>Recherchez une personne, une Page ou un groupe avec la barre ci-dessus.</p></section>`;}
+      return;
+    }
+    if(!q){
+      cards.forEach((c,i)=>{
+        const kind=c.querySelector('[data-kind]')?.dataset.kind || c.dataset.kind || '';
+        const label=(c.querySelector('.search-result-main small')?.textContent||'').toLowerCase();
+        const isPerson=kind==='Personnes'||label.startsWith('@')||c.querySelector('.search-result-avatar');
+        const isPage=kind==='Pages'||label.includes('page');
+        c.style.display=(isPerson||isPage)&&i<6?'flex':'none';
+      });
+      let head=results.querySelector('.search-suggestion-head');
+      if(!head){head=document.createElement('div');head.className='search-suggestion-head';head.innerHTML='<h2>Suggestions pour vous</h2><p>Profils et Pages recommandés</p>';results.prepend(head);}
+      results.dataset.uiGrouped='suggestions';
+      return;
+    }
+    // On every real query, rebuild clean sections from the rendered cards.
+    if(results.dataset.uiQuery===q)return;
+    results.dataset.uiQuery=q;
+    results.dataset.uiGrouped='1';
+    const groups={Personnes:[],Groupes:[],Pages:[],Publications:[],Photos:[],Vidéos:[],Reels:[]};
+    cards.forEach(c=>{
+      const b=c.querySelector('.search-result-main b')?.textContent||'';
+      const btn=c.querySelector('[data-kind]');
+      const k=btn?.dataset.kind||c.dataset.kind||'';
+      let kind=k;
+      if(!groups[kind]){
+        if(/photo/i.test(k))kind='Photos'; else if(/video/i.test(k))kind='Vidéos'; else kind=k||'Publications';
+      }
+      (groups[kind]||(groups.Publications=[])).push(c);
+    });
+    results.innerHTML='';
+    Object.entries(groups).forEach(([kind,list])=>{
+      if(!list.length)return;
+      const sec=document.createElement('section');sec.className='search-section-ui';
+      const title=document.createElement('div');title.className='search-section-title-ui';title.innerHTML=`<div><h2>${esc(kind)}</h2><p>${kind==='Personnes'?'Profils correspondants':kind==='Pages'?'Pages correspondantes':kind==='Groupes'?'Groupes correspondants':'Contenus correspondants'}</p></div><button type="button" class="search-see-all-ui">Voir tout</button>`;
+      const listEl=document.createElement('div');listEl.className=kind==='Photos'?'search-photo-grid-ui':'search-section-list-ui';
+      list.forEach(c=>{
+        const action=c.querySelector('.search-open-btn');
+        if(action){
+          const id=action.dataset.id, oldKind=action.dataset.kind;
+          action.dataset.kind=oldKind||kind;
+          if(oldKind==='Personnes') {action.dataset.action='addFriend';action.textContent='Ajouter';}
+          else if(oldKind==='Pages'){action.dataset.action='followPage';action.textContent='Suivre';}
+          else if(oldKind==='Groupes'){action.dataset.action='joinGroup';action.textContent='Rejoindre';}
+          else {action.textContent='Voir';}
+        }
+        listEl.appendChild(c);
+      });
+      sec.append(title,listEl);results.appendChild(sec);
+      title.querySelector('button').onclick=()=>{sec.classList.toggle('show-all');title.querySelector('button').textContent=sec.classList.contains('show-all')?'Réduire':'Voir tout';};
+    });
+  }
+
+  function bindSearchLoading(){
+    if(document.documentElement.dataset.tfaSearchLoadingBound==='1')return;
+    document.documentElement.dataset.tfaSearchLoadingBound='1';
+    document.addEventListener('input',e=>{
+      const input=e.target.closest('#pageSearchInput');
+      if(!input)return;
+      clearTimeout(window.__tfaSearchUiTimer);
+      const old=document.querySelector('.search-loading-screen');old?.remove();
+      const loader=document.createElement('div');loader.className='search-loading-screen';loader.innerHTML='<div class="search-loading-spinner"></div><b>Recherche en cours…</b><small>Quelques instants</small>';document.body.appendChild(loader);
+      window.__tfaSearchUiTimer=setTimeout(()=>{loader.classList.add('hide');setTimeout(()=>loader.remove(),180);},520);
+    },true);
+  }
   function run(){
-    hideZeroBadges();cleanDecorations();attachGlobalSearch();prepareSearchPage();polishSearchActions();syncThemeSettingLabel();
+    hideZeroBadges();cleanDecorations();attachGlobalSearch();prepareSearchPage();enhanceSearchPage();polishSearchActions();syncThemeSettingLabel();bindForgotPassword();bindSearchLoading();
     applyTheme();
   }
 
