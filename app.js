@@ -68,8 +68,11 @@ async function startTafaRealtime(){
         Promise.resolve(refresh()).catch(err=>console.warn('Realtime refresh '+table+':',err));
       });
     ch.subscribe(status=>{
-      if(status==='SUBSCRIBED') console.debug('[TAFAß V18.4 REALTIME] subscribed:',table);
-      if(status==='CHANNEL_ERROR'||status==='TIMED_OUT') console.warn('Realtime channel error:',table,status);
+      if(status==='SUBSCRIBED') console.debug('[TAFAß REALTIME] subscribed:',table);
+      if(status==='CHANNEL_ERROR'||status==='TIMED_OUT'){
+        console.warn('Realtime channel error:',table,status);
+        setTimeout(()=>{ if(state.current && !tafaRealtimeChannels.includes(ch)) return; },2500);
+      }
     });
     tafaRealtimeChannels.push(ch);
   });
@@ -120,6 +123,23 @@ async function persistMessage(m){
 function supabaseReady(){
   return !!(SB && SB.auth);
 }
+
+// Keep the client synchronized when the Auth session changes (login, refresh, logout).
+// This only reconnects the existing Realtime/data loaders; it does not change the database schema or data model.
+let authRealtimeTimer=null;
+if(SB?.auth){
+  SB.auth.onAuthStateChange((event,session)=>{
+    clearTimeout(authRealtimeTimer);
+    authRealtimeTimer=setTimeout(async()=>{
+      if(session?.user){
+        try{ await hydrateSupabaseSession(); await startTafaRealtime(); render(); }catch(e){ console.warn("Auth realtime sync:",e); }
+      }else{
+        stopTafaRealtime();
+      }
+    },120);
+  });
+}
+
 
 /* ============================================================
    TAFAß — SUPABASE FRIENDS / INVITATIONS + PROFILES
@@ -628,12 +648,11 @@ const countryData = [
 ];
 
 const NAV = [
-  ["home","home","Actualités"],
+  ["home","home","Accueil"],
   ["friends","friends","Amis"],
-  ["messages","messages","Messages"],
-  ["videos","videos","Vidéos"],
-  ["marketplace","marketplace","Marketplace"],
-  ["notifications","notifications","Notifications"]
+  ["create","plus","Créer"],
+  ["notifications","notifications","Notifications"],
+  ["profile","profile","Profil"]
 ];
 
 function navIcon(name){
@@ -643,7 +662,9 @@ function navIcon(name){
     messages:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5.5h16v11H9l-5 3v-14Z"/><path d="M8 10h8M8 13h5"/></svg>',
     videos:'<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="4"/><path d="m10 8 6 4-6 4V8Z"/></svg>',
     marketplace:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10h16v10H4z"/><path d="M3 10 5 5h14l2 5"/><path d="M8 10v3M12 10v3M16 10v3"/></svg>',
-    notifications:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 17h12l-1.4-2V10a4.6 4.6 0 0 0-9.2 0v5L6 17Z"/><path d="M10 20h4"/></svg>'
+    notifications:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 17h12l-1.4-2V10a4.6 4.6 0 0 0-9.2 0v5L6 17Z"/><path d="M10 20h4"/></svg>',
+    plus:'<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>',
+    profile:'<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.2"/><path d="M5 21c.6-4.2 3-6.3 7-6.3s6.4 2.1 7 6.3"/></svg>'
   };
   return icons[name]||icons.home;
 }
@@ -833,15 +854,17 @@ function routeBackBar(label,target="menu"){
 function unreadNotifications(){ return state.notifications.filter(n=>n.userId===state.current&&!n.read).length; }
 function pendingFriendInvites(){ return state.friendRequests.filter(r=>r.to===state.current&&r.status==="pending").length; }
 function setupNavigation(){
-  /* Navigation unique: icônes seulement, style mobile premium. */
-  const nav = $("bottomNav");
-  if(nav) nav.innerHTML = NAV.map(([id,icon,label])=>{
-    const count = id === "messages" ? unreadMessages() : id === "notifications" ? unreadNotifications() : id === "friends" ? pendingFriendInvites() : 0;
-    const badge = count ? `<em id="${id}Badge" class="badge-count">${count>99?"99+":count}</em>` : id === "messages" ? `<em id="msgBadge" class="badge-count hidden">0</em>` : id === "notifications" ? `<em id="notifBadge" class="badge-count hidden">0</em>` : id === "friends" ? `<em id="friendsBadge" class="badge-count hidden">0</em>` : "";
-    return `<button class="nav-item ${route===id?"active":""}" data-route="${id}" title="${label}" aria-label="${label}"><span class="nav-glyph">${navIcon(icon)}</span>${badge}<small class="sr-only">${label}</small></button>`;
+  const nav=$("bottomNav");
+  if(!nav)return;
+  nav.innerHTML=NAV.map(([id,icon,label])=>{
+    if(id==="create") return `<button class="nav-item nav-create" data-action="openComposer" data-kind="post" title="Créer" aria-label="Créer"><span class="nav-glyph">${navIcon(icon)}</span><small>Créer</small></button>`;
+    const count=id==="notifications"?unreadNotifications():id==="friends"?pendingFriendInvites():0;
+    const badge=count?`<em class="badge-count">${count>99?"99+":count}</em>`:"";
+    return `<button class="nav-item ${route===id?"active":""}" data-route="${id}" title="${label}" aria-label="${label}"><span class="nav-glyph">${navIcon(icon)}</span>${badge}<small>${label}</small></button>`;
   }).join("");
-  const legacy = $("mainNav");
-  if(legacy) legacy.innerHTML = "";
+  const nb=$("notifBadge"); if(nb){nb.textContent=unreadNotifications();nb.classList.toggle("hidden",unreadNotifications()===0)}
+  const top=$("topNotifBadge"); if(top){top.textContent=unreadNotifications()>99?"99+":unreadNotifications();top.classList.toggle("hidden",unreadNotifications()===0)}
+  const legacy=$("mainNav"); if(legacy)legacy.innerHTML="";
 }
 function isOnline(u){ return !!u?.online; }
 function canSeePost(p){
@@ -2355,7 +2378,14 @@ async function createAccount(){
     dots.forEach((dot,i)=>setTimeout(()=>{dot.classList.add("active");setTimeout(()=>{dot.classList.remove("active");dot.classList.add("done");},260);},i*500));
   }
   await hydrateSupabaseSession();
-  if(state.current){ try{ await loadSupabaseMessages(); }catch(e){} try{ await startTafaRealtime(); }catch(e){console.warn('Realtime init:',e)} }
+  if(state.current){
+    try{ await loadSupabaseProfiles(); }catch(e){}
+    try{ await loadSupabasePosts(); }catch(e){}
+    try{ await loadSupabaseFriends(); }catch(e){}
+    try{ await loadSupabaseMessages(); }catch(e){}
+    try{ await loadSupabaseNotifications(); }catch(e){}
+    try{ await startTafaRealtime(); }catch(e){console.warn('Realtime init:',e)}
+  }
   const leave=()=>{
     if(splash){splash.classList.add("hide");setTimeout(()=>splash.remove(),550);}
     if(!state.current){$("authScreen").classList.remove("hidden");$("appScreen").classList.add("hidden")}
